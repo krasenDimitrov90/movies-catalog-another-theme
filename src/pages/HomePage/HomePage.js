@@ -62,9 +62,7 @@ const HomePage = () => {
                                             <Movie 
                                                 key={movie}
                                                 movieId={movie}
-                                                dexcription={props.dexcription}
                                                 imageUrl={props.imageUrl}
-                                                likes={props.likes}
                                                 ownerId={props.ownerId}
                                                 title={props.title}
                                             />

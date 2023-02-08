@@ -4,10 +4,7 @@ import AuthContext from "../../contexts/auth-context";
 
 const Movie = ({
     movieId,
-    dexcription,
     imageUrl,
-    likes,
-    ownerId,
     title}) => {
 
     const { isLoggedIn } = React.useContext(AuthContext);
