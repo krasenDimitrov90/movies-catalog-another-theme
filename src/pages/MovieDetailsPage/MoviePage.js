@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MovieDetailsPage = () => {
 
@@ -17,9 +18,9 @@ const MovieDetailsPage = () => {
                         <p>Natasha Romanoff aka Black Widow confronts the darker parts of her ledger when a dangerous
                             conspiracy
                             with ties to her past arises. Comes on the screens 2020.</p>
-                        <a className="btn btn-danger" href="/">Delete</a>
-                        <a className="btn btn-warning" href="/">Edit</a>
-                        <a className="btn btn-primary" href="/">Like</a>
+                        <Link className="btn btn-danger" to="#">Delete</Link>
+                        <Link className="btn btn-warning" to="/movie/edit">Edit</Link>
+                        <Link className="btn btn-primary" to="#">Like</Link>
                         <span className="enrolled-span">Liked 1</span>
                     </div>
                 </div>

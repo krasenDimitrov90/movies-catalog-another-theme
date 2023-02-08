@@ -1,4 +1,22 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
+const MovieTemplate = () => {
+    return (
+        <div className='card mb-4'>
+            <img class="card-img-top" src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
+                alt="Card cap" width="400" />
+                <div class="card-body">
+                    <h4 class="card-title">$movie.title</h4>
+                </div>
+                <div class="card-footer">
+                    <NavLink to="movie/details">
+                        <button type="button" class="btn btn-info">Details</button>
+                    </NavLink>
+                </div>
+        </div>
+    );
+};
 
 const HomePage = () => {
 
@@ -14,7 +32,7 @@ const HomePage = () => {
             <h1 className="text-center">Movies</h1>
 
             <section id="add-movie-button" className="user">
-                <a href="/create" className="btn btn-warning ">Add Movie</a>
+                <NavLink to="add-movie" className="btn btn-warning ">Add Movie</NavLink>
             </section>
 
             <section id="movie">
@@ -23,6 +41,10 @@ const HomePage = () => {
 
                         <div className="card-deck d-flex justify-content-center">
                             {/* <!-- movie list --> */}
+                            {<MovieTemplate />}
+                            {<MovieTemplate />}
+                            {<MovieTemplate />}
+                           
                         </div>
                     </div>
                 </div>
