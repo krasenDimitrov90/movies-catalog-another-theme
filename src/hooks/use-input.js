@@ -7,6 +7,12 @@ const useInput = (validateValue) => {
 
     const hasError = valueInputIsTouched && !valueIsValid;
 
+    const autoCompleteValueHandler = React.useCallback((newValue) => {
+        setValue(newValue);
+        setValueInputIsTouched(true);
+        setValueIsValid(true);
+    }, []);
+
     const onChangeHandler = (e) => {
         setValue(e.target.value);
         if (!validateValue(e.target.value)) {
@@ -18,11 +24,11 @@ const useInput = (validateValue) => {
 
     const onBlurHandler = () => setValueInputIsTouched(true);
 
-    const resetInput = () => {
+    const resetInput = React.useCallback(() => {
         setValue('');
         setValueIsValid(false);
         setValueInputIsTouched(false);
-    };
+    }, []);
 
     return {
         value,
@@ -31,6 +37,7 @@ const useInput = (validateValue) => {
         onChangeHandler,
         onBlurHandler,
         resetInput,
+        autoCompleteValueHandler,
     };
 };
 
