@@ -16,7 +16,6 @@ const LoginPage = () => {
 
     const {
         isLoading,
-        error,
         sendRequest: request,
     } = useHttp();
 

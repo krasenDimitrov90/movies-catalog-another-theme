@@ -2,21 +2,26 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../contexts/auth-context";
 
-const Movie = () => {
+const Movie = ({
+    dexcription,
+    imageUrl,
+    likes,
+    ownerId,
+    title}) => {
 
     const { isLoggedIn } = React.useContext(AuthContext);
 
     return (
         <div className='card mb-4'>
-            <img class="card-img-top" src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
+            <img className="card-img-top" src={imageUrl}
                 alt="Card cap" width="400" />
-            <div class="card-body">
-                <h4 class="card-title">$movie.title</h4>
+            <div className="card-body">
+                <h4 className="card-title">{title}</h4>
             </div>
             {isLoggedIn &&
-                <div class="card-footer">
+                <div className="card-footer">
                     <NavLink to="movie/details">
-                        <button type="button" class="btn btn-info">Details</button>
+                        <button type="button" className="btn btn-info">Details</button>
                     </NavLink>
                 </div>
             }

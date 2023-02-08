@@ -10,3 +10,5 @@ const loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithP
 export const login = (requestConfig) => api.post(loginURL, requestConfig);
 
 export const register = (requestConfig) => api.post(registerURL, requestConfig);
+
+export const getMovies = (requestConfig) => api.get(host, requestConfig);
