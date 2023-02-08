@@ -23,7 +23,7 @@ const HomePage = () => {
     React.useEffect(() => {
 
         const requestConfig = {
-            action: "getMovies",
+            action: "getAllMovies",
             path: '/movies',
         };
 
@@ -61,6 +61,7 @@ const HomePage = () => {
                                         return (
                                             <Movie 
                                                 key={movie}
+                                                movieId={movie}
                                                 dexcription={props.dexcription}
                                                 imageUrl={props.imageUrl}
                                                 likes={props.likes}

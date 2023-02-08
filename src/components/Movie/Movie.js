@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import AuthContext from "../../contexts/auth-context";
 
 const Movie = ({
+    movieId,
     dexcription,
     imageUrl,
     likes,
@@ -20,7 +21,7 @@ const Movie = ({
             </div>
             {isLoggedIn &&
                 <div className="card-footer">
-                    <NavLink to="movie/details">
+                    <NavLink to={`movie/${movieId}/details`} >
                         <button type="button" className="btn btn-info">Details</button>
                     </NavLink>
                 </div>

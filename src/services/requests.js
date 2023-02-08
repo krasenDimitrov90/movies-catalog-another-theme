@@ -11,4 +11,5 @@ export const login = (requestConfig) => api.post(loginURL, requestConfig);
 
 export const register = (requestConfig) => api.post(registerURL, requestConfig);
 
-export const getMovies = (requestConfig) => api.get(host, requestConfig);
+export const getAllMovies = (requestConfig) => api.get(host, requestConfig);
+export const getMovie = (requestConfig) => api.get(host, requestConfig);
