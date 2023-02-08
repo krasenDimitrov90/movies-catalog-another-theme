@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SpinnerModal from "../../components/Spinner/Spinner";
 import AuthContext from "../../contexts/auth-context";
 import useHttp from "../../hooks/use-http";
@@ -7,6 +7,8 @@ import useHttp from "../../hooks/use-http";
 import './MovieDetailsPage.styles.css';
 
 const MovieDetailsPage = () => {
+
+    const navigate = useNavigate();
 
     const { movieId } = useParams();
     const [movie, setMovie] = React.useState({});
@@ -34,6 +36,12 @@ const MovieDetailsPage = () => {
         request(requestConfig, afterFetchMovie);
     }, [request, afterFetchMovie, movieId]);
 
+    const onDeleteHandler = (e) => {
+
+        const requestConfig = {action: "deleteMovie", path: `/movies/${movieId}`};
+        request(requestConfig, () => navigate('/'));
+    };
+
 
     return (
         <>
@@ -54,7 +62,7 @@ const MovieDetailsPage = () => {
                                 <h3 className="my-3 ">Movie Description</h3>
                                 <p>{movie.dexcription}</p>
                                 {userId === movie.ownerId && <>
-                                    <Link className="btn btn-danger" to="#">Delete</Link>
+                                    <button onClick={onDeleteHandler} className="btn btn-danger" >Delete</button>
                                     <Link className="btn btn-warning" to={`/movie/${movieId}/edit`}>Edit</Link>
                                 </>}
                                 {userId !== movie.ownerId && <Link className="btn btn-primary" to="#">Like</Link>}
