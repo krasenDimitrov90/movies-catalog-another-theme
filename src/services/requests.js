@@ -13,3 +13,4 @@ export const register = (requestConfig) => api.post(registerURL, requestConfig);
 
 export const getAllMovies = (requestConfig) => api.get(host, requestConfig);
 export const getMovie = (requestConfig) => api.get(host, requestConfig);
+export const postNewMovie = (requestConfig) => api.post(host, requestConfig);

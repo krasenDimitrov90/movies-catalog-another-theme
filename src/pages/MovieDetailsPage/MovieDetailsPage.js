@@ -55,7 +55,7 @@ const MovieDetailsPage = () => {
                                 <p>{movie.dexcription}</p>
                                 {userId === movie.ownerId && <>
                                     <Link className="btn btn-danger" to="#">Delete</Link>
-                                    <Link className="btn btn-warning" to="/movie/edit">Edit</Link>
+                                    <Link className="btn btn-warning" to={`/movie/${movieId}/edit`}>Edit</Link>
                                 </>}
                                 {userId !== movie.ownerId && <Link className="btn btn-primary" to="#">Like</Link>}
                                 <span className="enrolled-span">Liked {likesCount}</span>
