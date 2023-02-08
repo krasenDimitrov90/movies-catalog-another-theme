@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
+import { AuthContextProvider } from "./contexts/auth-context";
 import AddMoviePage from "./pages/AddMoviePage/AddMoviePage";
 import EditMoviePage from "./pages/EditMoviePage/EditMoviePage";
 import HomePage from "./pages/HomePage/HomePage";
@@ -27,8 +28,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
-
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
   );
 }
 

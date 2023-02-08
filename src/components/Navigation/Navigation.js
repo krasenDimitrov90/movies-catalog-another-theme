@@ -1,24 +1,35 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import AuthContext from "../../contexts/auth-context";
 
 const Navigation = () => {
+
+    const { isLoggedIn } = React.useContext(AuthContext);
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
             <NavLink className="navbar-brand text-light" to="/">Movies</NavLink>
             <ul className="navbar-nav ml-auto ">
-                <li className="nav-item user">
-                    <NavLink className="nav-link" id="welcome-msg" to="/">Welcome, email</NavLink>
-                </li>
-                <li className="nav-item user">
-                    <NavLink className="nav-link" to="/logout">Logout</NavLink>
-                </li>
-                <li className="nav-item guest">
-                    <NavLink className="nav-link" to="/login">Login</NavLink>
-                </li>
-                <li className="nav-item guest">
-                    <NavLink className="nav-link" to="/register">Register</NavLink>
-                </li>
+
+                {isLoggedIn && <>
+                    <li className="nav-item user">
+                        <NavLink className="nav-link" id="welcome-msg" to="/">Welcome, email</NavLink>
+                    </li>
+                    <li className="nav-item user">
+                        <NavLink className="nav-link" to="/logout">Logout</NavLink>
+                    </li>
+                </>
+                }
+                {!isLoggedIn && <>
+
+                    <li className="nav-item guest">
+                        <NavLink className="nav-link" to="/login">Login</NavLink>
+                    </li>
+                    <li className="nav-item guest">
+                        <NavLink className="nav-link" to="/register">Register</NavLink>
+                    </li>
+                </>
+                }
             </ul>
         </nav>
     );

@@ -1,24 +1,27 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import AuthContext from "../../contexts/auth-context";
 
 const MovieTemplate = () => {
     return (
         <div className='card mb-4'>
             <img class="card-img-top" src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
                 alt="Card cap" width="400" />
-                <div class="card-body">
-                    <h4 class="card-title">$movie.title</h4>
-                </div>
-                <div class="card-footer">
-                    <NavLink to="movie/details">
-                        <button type="button" class="btn btn-info">Details</button>
-                    </NavLink>
-                </div>
+            <div class="card-body">
+                <h4 class="card-title">$movie.title</h4>
+            </div>
+            <div class="card-footer">
+                <NavLink to="movie/details">
+                    <button type="button" class="btn btn-info">Details</button>
+                </NavLink>
+            </div>
         </div>
     );
 };
 
 const HomePage = () => {
+
+    const { isLoggedIn } = React.useContext(AuthContext);
 
     return (
         <section id="home-page" class="view-section">
@@ -31,9 +34,11 @@ const HomePage = () => {
 
             <h1 className="text-center">Movies</h1>
 
-            <section id="add-movie-button" className="user">
-                <NavLink to="add-movie" className="btn btn-warning ">Add Movie</NavLink>
-            </section>
+            {isLoggedIn &&
+                <section id="add-movie-button" className="user">
+                    <NavLink to="add-movie" className="btn btn-warning ">Add Movie</NavLink>
+                </section>
+            }
 
             <section id="movie">
                 <div className=" mt-3 ">
@@ -44,7 +49,7 @@ const HomePage = () => {
                             {<MovieTemplate />}
                             {<MovieTemplate />}
                             {<MovieTemplate />}
-                           
+
                         </div>
                     </div>
                 </div>
