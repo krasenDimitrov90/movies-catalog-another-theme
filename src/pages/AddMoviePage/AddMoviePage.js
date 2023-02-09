@@ -74,7 +74,7 @@ const AddMoviePage = () => {
                 <form onSubmit={submitNewMovie} className="text-center border border-light p-5" action="#" method="">
                     <h1>Add Movie</h1>
                     <div className="form-group">
-                        <label for="title">Movie Title</label>
+                        <label htmlFor="title">Movie Title</label>
                         <input id="title" type="text" className="form-control" placeholder="Title" name="title"
                             value={enteredTitleValue}
                             onChange={titleInputOnChangeHandler}
@@ -82,7 +82,7 @@ const AddMoviePage = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label for="description">Movie Description</label>
+                        <label htmlFor="description">Movie Description</label>
                         <textarea className="form-control" placeholder="Description" name="description"
                             value={enteredDescriptionValue}
                             onChange={descriptionInputOnChangeHandler}
@@ -90,7 +90,7 @@ const AddMoviePage = () => {
                         ></textarea>
                     </div>
                     <div className="form-group">
-                        <label for="imageUrl">Image url</label>
+                        <label htmlFor="imageUrl">Image url</label>
                         <input id="imageUrl" type="text" className="form-control" placeholder="Image Url" name="imageUrl"
                             value={enteredImageUrlValue}
                             onChange={imageUrlInputOnChangeHandler}

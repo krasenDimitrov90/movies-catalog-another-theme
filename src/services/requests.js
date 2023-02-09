@@ -16,3 +16,4 @@ export const getMovie = (requestConfig) => api.get(host, requestConfig);
 export const postNewMovie = (requestConfig) => api.post(host, requestConfig);
 export const updateMovie = (requestConfig) => api.patch(host, requestConfig);
 export const deleteMovie = (requestConfig) => api.del(host, requestConfig);
+export const updateMovieLikes = (requestConfig) => api.patch(host, requestConfig);

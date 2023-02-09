@@ -10,11 +10,13 @@ const MovieDetailsPage = () => {
 
     const navigate = useNavigate();
 
-    const { movieId } = useParams();
-    const [movie, setMovie] = React.useState({});
-    const [likesCount, setLikesCount] = React.useState(0);
     const { getUserCredentials } = React.useContext(AuthContext);
     const { userId } = getUserCredentials();
+    const { movieId } = useParams();
+    const [movie, setMovie] = React.useState({});
+    const [likeBtnTxt, setLikeBtnTxt] = React.useState('Like');
+    const [likesCount, setLikesCount] = React.useState(0);
+    const [likeBtnHasCliked, setLikeBtnHasCliked] = React.useState(false);
 
     const {
         isLoading,
@@ -22,13 +24,15 @@ const MovieDetailsPage = () => {
     } = useHttp();
 
     const getLikesCount = React.useCallback((movie) => {
-            return movie.likes.filter(id => id !== 'empty').length;
-    },[]);
+        return Object.entries(movie.likes).filter(([owner, state]) => state === 'Like').length;
+    }, []);
 
     const afterFetchMovie = React.useCallback((movie) => {
+        setLikeBtnTxt(movie.likes[userId] === 'Like' ? 'Dislike' : 'Like');
+
         setMovie(movie);
         setLikesCount(getLikesCount(movie));
-    }, [getLikesCount]);
+    }, [getLikesCount, userId]);
 
     React.useEffect(() => {
         const requestConfig = { action: "getMovie", path: `/movies/${movieId}` };
@@ -38,15 +42,32 @@ const MovieDetailsPage = () => {
 
     const onDeleteHandler = (e) => {
 
-        const requestConfig = {action: "deleteMovie", path: `/movies/${movieId}`};
+        const requestConfig = { action: "deleteMovie", path: `/movies/${movieId}` };
         request(requestConfig, () => navigate('/'));
     };
 
+    const onLikeHandler = (e) => {
+
+        if (!likeBtnHasCliked) {
+            setLikeBtnHasCliked(true);
+        }
+        const afterFetch = (like) => {
+            console.log(like);
+        };
+
+        const data = { [userId]: likeBtnTxt };
+        const requestConfig = { action: "updateMovieLikes", path: `/movies/${movieId}/likes`, data };
+        request(requestConfig, afterFetch);
+        
+        setLikeBtnTxt((prev) => prev === 'Like' ? 'Dislike' : 'Like');
+        setLikesCount((prev) => likeBtnTxt === 'Like' ? prev + 1 : prev - 1);
+        
+    };
 
     return (
         <>
-            {isLoading && <SpinnerModal />}
-            {!isLoading &&
+            {isLoading && !likeBtnHasCliked && <SpinnerModal />}
+            {
                 <section id="movie-example" className="view-section">
                     <div className="container">
                         <div className="row bg-light text-dark">
@@ -65,7 +86,7 @@ const MovieDetailsPage = () => {
                                     <button onClick={onDeleteHandler} className="btn btn-danger" >Delete</button>
                                     <Link className="btn btn-warning" to={`/movie/${movieId}/edit`}>Edit</Link>
                                 </>}
-                                {userId !== movie.ownerId && <Link className="btn btn-primary" to="#">Like</Link>}
+                                {userId !== movie.ownerId && <button onClick={onLikeHandler} className="btn btn-primary" >{likeBtnTxt}</button>}
                                 <span className="enrolled-span">Liked {likesCount}</span>
                             </div>
                         </div>
