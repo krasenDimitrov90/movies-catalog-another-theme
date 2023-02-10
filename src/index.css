@@ -63,6 +63,16 @@ a.active:focus {
   cursor: not-allowed;
 }
 
+.home-page-pages-input-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-group.mb-3 {
+  width: 17%;
+  margin-right: 17px;
+}
+
 @media only screen and (max-width: 414px) {
 
   .navbar-nav.ml-auto {
@@ -87,5 +97,10 @@ a.active:focus {
   .card-deck.d-flex {
     width: 100vw;
     align-items: center;
+  }
+
+  .input-group.mb-3 {
+    flex: 1;
+    margin-right: 50px;
   }
 }

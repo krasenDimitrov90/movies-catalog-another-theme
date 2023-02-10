@@ -13,15 +13,18 @@ const HomePage = () => {
 
     const { isLoggedIn } = React.useContext(AuthContext);
     const [movies, setMovies] = React.useState({});
-    const [moviesIDs, setMoviesIDs] = React.useState(["empty"]); 
+    const [moviesIDs, setMoviesIDs] = React.useState(["empty"]);
     const [pages, setPages] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
-    const moviesPerPage = 2;
+    const [moviesPerPage, setMoviesPerPage] = React.useState(2);
+    // const moviesPerPage = 2;
     const [searchParams] = useSearchParams();
+
+    const pegesInputRef = React.useRef();
 
     React.useEffect(() => {
         setCurrentPage(Number(searchParams.get('page')) || 1);
-    },[searchParams]);
+    }, [searchParams]);
 
 
     const {
@@ -40,7 +43,7 @@ const HomePage = () => {
 
         setPages(newPages);
         setMoviesIDs((prev) => [prev, ...Object.keys(movies).map(Number).sort((a, b) => a - b)]);
-    }, []);
+    }, [moviesPerPage]);
 
     React.useEffect(() => {
         const requestConfig = {
@@ -65,9 +68,9 @@ const HomePage = () => {
         const startId = moviesIDs[startIdx];
         const endId = moviesIDs[endIdx];
 
-        console.log({startIdx, endIdx, startId, endId});
+        console.log({ startIdx, endIdx, startId, endId });
 
-       //movies.json?orderBy=%22$key%22&startAt=%22-NNkTuRl2SmccE-A03Ay%22&endAt=%22-NNkoZ5FKS8-MZ-5C4Na%22
+        //movies.json?orderBy=%22$key%22&startAt=%22-NNkTuRl2SmccE-A03Ay%22&endAt=%22-NNkoZ5FKS8-MZ-5C4Na%22
 
         const requestConfig = {
             action: "getMovies",
@@ -81,11 +84,23 @@ const HomePage = () => {
 
     const handlePreviousPage = () => navigate(`/movies?page=${Math.max(1, currentPage - 1)}`);
     const handleNextPage = () => navigate(`/movies?page=${Math.min(pages.length, currentPage + 1)}`);
-    
+
+    const moviesPerPageHandler = (e) => {
+        if (pegesInputRef.current.value > 5 || pegesInputRef.current.value < 1) {
+            return;
+        }
+        setMoviesPerPage(Number(pegesInputRef.current.value));
+    };
+
+    console.log({currentPage, pages});
+
+    // if (currentPage > pages.length) {
+    //     navigate(`/movies?page=${pages.length}`);
+    // }
 
     return (
         <>
-            {isLoading &&  <SpinnerModal />}
+            {isLoading && <SpinnerModal />}
             <section id="home-page" className="view-section">
                 <div className="jumbotron jumbotron-fluid text-light" style={{ "backgroundColor": "#343a40", "padding-top": "0" }} >
                     <img src="https://slicksmovieblog.files.wordpress.com/2014/08/cropped-movie-banner-e1408372575210.jpg"
@@ -96,11 +111,19 @@ const HomePage = () => {
 
                 <h1 className="text-center">Movies</h1>
 
-                {isLoggedIn &&
-                    <section id="add-movie-button" style={{ paddingLeft: "54px" }} className="user">
-                        <NavLink to="/add-movie" className="btn btn-warning ">Add Movie</NavLink>
-                    </section>
-                }
+                <section className="home-page-pages-input-section">
+                    {isLoggedIn &&
+                        <section id="add-movie-button" style={{ paddingLeft: "54px" }} className="user">
+                            <NavLink to="/add-movie" className="btn btn-warning ">Add Movie</NavLink>
+                        </section>
+                    }
+                    <div class="input-group mb-3">
+                        <input ref={pegesInputRef} type="number" min={1} max={5} class="form-control" placeholder="Movies per page" aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                        <div class="input-group-append">
+                            <button onClick={moviesPerPageHandler} class="btn btn-outline-secondary" type="button">OK</button>
+                        </div>
+                    </div>
+                </section>
 
                 {!isLoading &&
                     <section id="movie">
