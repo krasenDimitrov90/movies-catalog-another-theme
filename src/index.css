@@ -48,3 +48,44 @@
   width: 100%;
   justify-content: space-around;
 }
+
+button:focus,
+button:active:focus,
+button.active:focus,
+a:focus,
+a:active:focus,
+a.active:focus {
+  box-shadow: none !important;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media only screen and (max-width: 414px) {
+
+  .navbar-nav.ml-auto {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0px;
+  }
+
+  .navbar-nav.ml-auto li {
+    margin-left: 10px;
+  }
+
+  .jumbotron.jumbotron-fluid.text-light {
+    text-align: center;
+  }
+
+  .row.d-flex.d-wrap {
+    padding: 0;
+    margin: 0;
+  }
+
+  .card-deck.d-flex {
+    width: 100vw;
+    align-items: center;
+  }
+}

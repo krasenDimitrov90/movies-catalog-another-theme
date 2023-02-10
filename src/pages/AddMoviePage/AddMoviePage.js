@@ -12,7 +12,7 @@ const AddMoviePage = () => {
     const [formIsInvalid, setFormIsInvalid] = React.useState(false);
     const { getUserCredentials } = React.useContext(AuthContext);
     const { userId } = getUserCredentials();
-    const [position, setPosition] = React.useState(0);
+    const [movieId, setMovieId] = React.useState(0);
 
     const {
         isLoading,
@@ -41,11 +41,16 @@ const AddMoviePage = () => {
     } = useInput(value => value.trim().length > 0);
 
     React.useEffect(() => {
-        const setPositionHanler = (movie) => setPosition(Number(Object.values(movie)[0].position));
+        const setMovieIDHanler = (movie) => setMovieId(Number(Object.keys(movie)[0]));
 
-        const requestConfig = {action: 'getPosition', path: '/movies', query: '?orderBy="position"&limitToLast=1'};
-        request(requestConfig, setPositionHanler);
-    }, [request, position]);
+        const requestConfig = {
+            action: 'getPosition',
+            path: '/movies',
+            query: '?orderBy="$key"&limitToLast=1'
+        };
+
+        request(requestConfig, setMovieIDHanler);
+    }, [request, movieId]);
 
     React.useEffect(() => {
         if (!enteredTitleIsValid || !enteredDescriptionIsValid || !enteredImageUrlIsValid) {
@@ -55,26 +60,30 @@ const AddMoviePage = () => {
         }
     }, [enteredTitleIsValid, enteredDescriptionIsValid, enteredImageUrlIsValid]);
 
-    const afterFetch = React.useCallback(() => {
+    const afterPatchNewMovie = React.useCallback(() => {
         navigate('/');
     }, [navigate]);
 
     const submitNewMovie = (e) => {
         e.preventDefault();
 
+        const ID = movieId + 1
+
         const data = {
-            dexcription: enteredDescriptionValue,
-            imageUrl: enteredImageUrlValue,
-            likes: ["empty"],
-            ownerId: userId,
-            title: enteredTitleValue,
-            position: position + 1,
+            [ID]: {
+                dexcription: enteredDescriptionValue,
+                imageUrl: enteredImageUrlValue,
+                likes: ["empty"],
+                ownerId: userId,
+                title: enteredTitleValue,
+            }
         };
 
-        const requestConfig = { action: "postNewMovie", path: "/movies", data };
+        const requestConfig = { action: "patchNewMovie", path: "/movies", data };
 
-        request(requestConfig, afterFetch);
+        request(requestConfig, afterPatchNewMovie);
     };
+
 
     return (
         <>

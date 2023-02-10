@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Movie from "../../components/Movie/Movie";
 import PaginatorTemplate from "../../components/PaginatorTemplate/PaginatorTemplate";
 import SpinnerModal from "../../components/Spinner/Spinner";
@@ -9,15 +9,18 @@ import useHttp from "../../hooks/use-http";
 
 const HomePage = () => {
 
+    const navigate = useNavigate();
+
     const { isLoggedIn } = React.useContext(AuthContext);
     const [movies, setMovies] = React.useState({});
+    const [moviesIDs, setMoviesIDs] = React.useState(["empty"]); 
     const [pages, setPages] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const moviesPerPage = 2;
     const [searchParams] = useSearchParams();
 
     React.useEffect(() => {
-        setCurrentPage(searchParams.get('page') || 1);
+        setCurrentPage(Number(searchParams.get('page')) || 1);
     },[searchParams]);
 
 
@@ -27,7 +30,6 @@ const HomePage = () => {
     } = useHttp();
 
     const afterFetchColectionCount = React.useCallback((movies) => {
-        // const moviesCount = Number(Object.values(movie)[0].position);
         const moviesCount = Number(Object.keys(movies).length);
         const newPages = [];
         const length = Math.ceil(moviesCount / moviesPerPage);
@@ -37,13 +39,13 @@ const HomePage = () => {
         }
 
         setPages(newPages);
+        setMoviesIDs((prev) => [prev, ...Object.keys(movies).map(Number).sort((a, b) => a - b)]);
     }, []);
 
     React.useEffect(() => {
         const requestConfig = {
             action: "getColectionCount",
             path: '/movies',
-            // query: '?orderBy="position"&limitToLast=1',
             query: '?shallow=true',
         };
 
@@ -56,30 +58,36 @@ const HomePage = () => {
 
     React.useEffect(() => {
 
-        let allPositions = Object.keys(movies).reduce((acc, movie) => {
-            acc.push(Number(movies[movie].position));
-            return acc;
-        },[]);
+        console.log(moviesIDs);
 
-        // const positionToStart = currentPage === 1 ? 1 : (Math.max(...allPositions) + 1);
-        const positionToStart = currentPage === 1 ? 1 : (currentPage * moviesPerPage) - 1;
+        const startIdx = (currentPage - 1) * moviesPerPage + 1;
+        const endIdx = (currentPage - 1) * moviesPerPage + moviesPerPage;
+        const startId = moviesIDs[startIdx];
+        const endId = moviesIDs[endIdx];
+
+        console.log({startIdx, endIdx, startId, endId});
+
+       //movies.json?orderBy=%22$key%22&startAt=%22-NNkTuRl2SmccE-A03Ay%22&endAt=%22-NNkoZ5FKS8-MZ-5C4Na%22
 
         const requestConfig = {
             action: "getMovies",
             path: '/movies',
-            query: `?orderBy="position"&startAt=${positionToStart}&limitToFirst=${moviesPerPage}`,
+            query: `?orderBy=%22$key%22&startAt=%22${startId}%22&endAt=%22${endId}%22`,
         };
 
         request(requestConfig, afterFetchMovies)
 
-    }, [afterFetchMovies, request, currentPage]);
+    }, [afterFetchMovies, request, currentPage, moviesIDs]);
+
+    const handlePreviousPage = () => navigate(`/movies?page=${Math.max(1, currentPage - 1)}`);
+    const handleNextPage = () => navigate(`/movies?page=${Math.min(pages.length, currentPage + 1)}`);
     
 
     return (
         <>
-            {isLoading && <SpinnerModal />}
+            {isLoading &&  <SpinnerModal />}
             <section id="home-page" className="view-section">
-                <div className="jumbotron jumbotron-fluid text-light" style={{ "backgroundColor": "#343a40" }} >
+                <div className="jumbotron jumbotron-fluid text-light" style={{ "backgroundColor": "#343a40", "padding-top": "0" }} >
                     <img src="https://slicksmovieblog.files.wordpress.com/2014/08/cropped-movie-banner-e1408372575210.jpg"
                         className="img-fluid" alt="Responsive" style={{ width: "150%", "height": "200px" }} />
                     <h1 className="display-4">Movies</h1>
@@ -118,7 +126,7 @@ const HomePage = () => {
             <nav aria-label="..." className="pagination-container">
                 <ul className="pagination">
                     <li className="page-item">
-                        <Link className="page-link" to="prev" >Previous</Link>
+                        <button className={`page-link ${currentPage === 1 ? 'disabled' : ''}`} onClick={handlePreviousPage} >Previous</button>
                     </li>
 
                     {pages.map(page => {
@@ -126,12 +134,13 @@ const HomePage = () => {
                             <PaginatorTemplate
                                 key={page}
                                 page={page}
+                                currentPage={currentPage}
                             />
                         );
                     })}
 
                     <li className="page-item">
-                        <Link className="page-link" to="next">Next</Link>
+                        <button className={`page-link ${currentPage === pages.length ? 'disabled' : ''}`} onClick={handleNextPage}  >Next</button>
                     </li>
                 </ul>
             </nav>
