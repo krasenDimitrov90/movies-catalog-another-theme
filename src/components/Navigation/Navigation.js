@@ -4,12 +4,10 @@ import AuthContext from "../../contexts/auth-context";
 
 const Navigation = () => {
 
-    const { isLoggedIn, getUserCredentials, loggoutHandler } = React.useContext(AuthContext);
+    const { isLoggedIn, getUserCredentials, loggout } = React.useContext(AuthContext);
     const { userEmail } = getUserCredentials();
 
-    const onLoggoutHandler = (e) => {
-        loggoutHandler();
-    };
+    const onLoggoutHandler = (e) => loggout();
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
@@ -21,7 +19,7 @@ const Navigation = () => {
                         <NavLink className="nav-link" id="welcome-msg" to="/">Welcome, {userEmail}</NavLink>
                     </li>
                     <li className="nav-item user">
-                        <NavLink onClick={onLoggoutHandler} className="nav-link" to="/login">Logout</NavLink>
+                        <NavLink onClick={onLoggoutHandler} className="nav-link" to="login" >Logout</NavLink>
                     </li>
                 </>
                 }

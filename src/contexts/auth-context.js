@@ -33,6 +33,7 @@ export const AuthContextProvider = (props) => {
 
 
     const loginHandler = (token, userId, email) => {
+        console.log('In login');
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
         localStorage.setItem('userEmail', email);

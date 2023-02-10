@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { AuthContextProvider } from "./contexts/auth-context";
 import AddMoviePage from "./pages/AddMoviePage/AddMoviePage";
@@ -15,7 +15,9 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { path: '', element: <HomePage /> },
+      { path: '', element: <Navigate to={'/movies?page1'} /> },
+      // { path: '', element: <HomePage /> },
+      { path: 'movies', element: <HomePage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
       { path: 'add-movie', element: <AddMoviePage /> },

@@ -1,6 +1,6 @@
 const request = (method, url, requestConfig = {}) => {
 
-    const {data, id, token, path } = requestConfig;
+    const {data, id, token, path, query } = requestConfig;
     const options = {};
 
     if (method !== 'GET') {
@@ -23,6 +23,11 @@ const request = (method, url, requestConfig = {}) => {
 
     if (token) {
         url += `?auth=${token}`;
+    }
+
+
+    if (query) {
+        url += query;
     }
 
 

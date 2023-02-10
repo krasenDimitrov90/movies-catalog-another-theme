@@ -12,13 +12,13 @@ const Movie = ({
     return (
         <div className='card mb-4'>
             <img className="card-img-top" src={imageUrl}
-                alt="Card cap" width="400" />
-            <div className="card-body">
-                <h4 className="card-title">{title}</h4>
+                alt="Card cap" style={{height: "100%"}} />
+            <div className="card-body" style={{height: "5rem"}} >
+                <h4 className="card-title" style={{textAlign: "center"}} >{title}</h4>
             </div>
             {isLoggedIn &&
                 <div className="card-footer">
-                    <NavLink to={`movie/${movieId}/details`} >
+                    <NavLink to={`/movie/${movieId}/details`} >
                         <button type="button" className="btn btn-info">Details</button>
                     </NavLink>
                 </div>

@@ -12,6 +12,7 @@ const AddMoviePage = () => {
     const [formIsInvalid, setFormIsInvalid] = React.useState(false);
     const { getUserCredentials } = React.useContext(AuthContext);
     const { userId } = getUserCredentials();
+    const [position, setPosition] = React.useState(0);
 
     const {
         isLoading,
@@ -40,6 +41,13 @@ const AddMoviePage = () => {
     } = useInput(value => value.trim().length > 0);
 
     React.useEffect(() => {
+        const setPositionHanler = (movie) => setPosition(Number(Object.values(movie)[0].position));
+
+        const requestConfig = {action: 'getPosition', path: '/movies', query: '?orderBy="position"&limitToLast=1'};
+        request(requestConfig, setPositionHanler);
+    }, [request, position]);
+
+    React.useEffect(() => {
         if (!enteredTitleIsValid || !enteredDescriptionIsValid || !enteredImageUrlIsValid) {
             setFormIsInvalid(true);
         } else {
@@ -60,6 +68,7 @@ const AddMoviePage = () => {
             likes: ["empty"],
             ownerId: userId,
             title: enteredTitleValue,
+            position: position + 1,
         };
 
         const requestConfig = { action: "postNewMovie", path: "/movies", data };
