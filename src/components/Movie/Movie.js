@@ -1,28 +1,26 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import AuthContext from "../../contexts/auth-context";
 
 const Movie = ({
     movieId,
     imageUrl,
-    title}) => {
+    title }) => {
 
-    const { isLoggedIn } = React.useContext(AuthContext);
+    const imgOnErrorHandler = ({ currentTarget }) => {
+        currentTarget.onerror = null; // prevents looping
+        currentTarget.src = "/images/no-image.jpg";
+    }
 
     return (
-        <div className='card mb-4'>
-            <img className="card-img-top" src={imageUrl}
-                alt="Card cap" style={{height: "100%"}} />
-            <div className="card-body" style={{height: "5rem"}} >
-                <h4 className="card-title" style={{textAlign: "center"}} >{title}</h4>
+        <div className="movie-item-style-2 movie-item-style-1">
+            {/* <img src={imageUrl} alt="" /> */}
+            <img src={imageUrl}
+                onError={imgOnErrorHandler}
+                alt="" />
+            <div className="hvr-inner">
+                <NavLink to={`/movie/${movieId}/details?state=overview`}> Details <i className="ion-android-arrow-dropright"></i> </NavLink>
             </div>
-            {isLoggedIn &&
-                <div className="card-footer">
-                    <NavLink to={`/movie/${movieId}/details`} >
-                        <button type="button" className="btn btn-info">Details</button>
-                    </NavLink>
-                </div>
-            }
+
         </div>
     );
 };

@@ -1,16 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const PaginatorTemplate = ({ page, currentPage }) => {
 
-    // const [searchParams] = useSearchParams();
-
     return (
-        <li className={`page-item ${page === currentPage ? 'active' : ''}`}>
-            <Link className="page-link"
-                to={`/movies?page=${page}`} >
-                {page}
-            </Link>
+        <li><NavLink className={`${page === currentPage ? 'active' : ''}`}
+            to={`/movies?page=${page}`} >
+            {page}
+        </NavLink>
         </li>
     );
 };
