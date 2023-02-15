@@ -20,6 +20,10 @@
     border: 3px solid #2f80ed;
   }
 
+  #root {
+    height: 100%;
+  }
+
   .home-btn-krs,
   .logout-btn-krs {
     font-family: 'Dosis', sans-serif;

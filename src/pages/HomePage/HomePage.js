@@ -107,7 +107,7 @@ const HomePage = () => {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="hero-ct">
-                                <h1> Share your favorit movies with others</h1>
+                                <h1> Share your favorite movies with others</h1>
 
                             </div>
                         </div>
