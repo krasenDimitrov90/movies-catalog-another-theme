@@ -8,7 +8,7 @@ import ErrorPopUp from "../../ErrorPopUp/ErrorPopUp";
 import SuccessPopUp from "../../SuccessPopUp/SuccessPopUp";
 import LoaderContext from "../../../contexts/loader-context";
 
-const EditMovie = ({ userHasEditMovieSetter }) => {
+const EditMovie = ({ onChange }) => {
 
     const navigate = useNavigate();
     const { startLoader, stopLoader, } = React.useContext(LoaderContext);
@@ -22,7 +22,6 @@ const EditMovie = ({ userHasEditMovieSetter }) => {
 
     const afterEditRequestFInished = () => {
         navigate(`/movie/${movieId}/details?state=overview`);
-        userHasEditMovieSetter();
     };
 
     const {
@@ -73,9 +72,10 @@ const EditMovie = ({ userHasEditMovieSetter }) => {
 
     }, [request, movieId, autoCompleteTitleHandler, autoCompleteDescriptionHandler, autoCompleteImageUrlHandler]);
 
-    const afterEdit = () => {
+    const afterEdit = (movieData) => {
         setModalIsOpen(true);
         setRequestIsFinished(true);
+        onChange && onChange(movieData)
         stopLoader();
     };
 

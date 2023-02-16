@@ -10,8 +10,6 @@ import LoaderContext from "../../contexts/loader-context";
 
 const MovieDetailsPage = () => {
 
-    const navigate = useNavigate();
-
     const { startLoader, stopLoader, } = React.useContext(LoaderContext);
 
     const [searchParams] = useSearchParams();
@@ -21,8 +19,6 @@ const MovieDetailsPage = () => {
     const { userId } = getUserCredentials();
     const { movieId } = useParams();
     const [movie, setMovie] = React.useState({});
-
-    const [userHasEditTheMovie, setUserHasEditTheMovie] = React.useState(false);
 
 
     const {
@@ -40,15 +36,20 @@ const MovieDetailsPage = () => {
     React.useEffect(() => {
         startLoader();
         const requestConfig = { action: "getMovie", path: `/movies/${movieId}` };
-        console.log('Get movie details');
+
         request(requestConfig, afterFetchMovie, (err) => console.log(err));
-    }, [navigate, request, afterFetchMovie, movieId, userHasEditTheMovie]);
+    }, [isLoggedIn]);
 
 
     const imgOnErrorHandler = ({ currentTarget }) => {
         currentTarget.onerror = null; // prevents looping
         currentTarget.src = "/images/no-image.jpg";
     }
+
+    const handleOnMovieUpdate = (movieData) => {
+        setMovie((prev) => ({...prev, ...movieData}))
+    }
+
 
     return (
         <>
@@ -107,6 +108,11 @@ const MovieDetailsPage = () => {
                                             <p style={{ "marginLeft": "15px", "fontSize": "18px" }} >{Object.entries(movie?.likes).length - 1} Likes
                                             </p>
                                         }
+
+                                        {!isLoggedIn && Object.entries(movie).length > 0 && 
+                                            <p style={{ "marginLeft": "15px", "fontSize": "18px" }} >{Object.entries(movie?.likes).length - 1} Likes
+                                            </p>
+                                        }
                                     </div>
                                 </div>
                                 <div className="movie-tabs">
@@ -127,9 +133,7 @@ const MovieDetailsPage = () => {
                                                 </div>
                                             }
                                             {pageParams === 'edit-movie' &&
-                                                <EditMovie
-                                                    userHasEditMovieSetter={() => setUserHasEditTheMovie((prev) => !prev)}
-                                                />
+                                                <EditMovie onChange={handleOnMovieUpdate}/>
                                             }
                                             {pageParams === 'delete-movie' &&
                                                 <DeleteMovie

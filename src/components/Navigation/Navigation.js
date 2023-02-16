@@ -43,34 +43,6 @@ const Navigation = () => {
             </div>
         </header>
     );
-
-    // return (
-    //     <nav classNameName="navbar navbar-expand-lg navbar-dark bg-dark ">
-    //         <NavLink classNameName="navbar-brand text-light" to="/">Movies</NavLink>
-    //         <ul classNameName="navbar-nav ml-auto ">
-
-    //             {isLoggedIn && <>
-    //                 <li classNameName="nav-item user">
-    //                     <NavLink classNameName="nav-link" id="welcome-msg" to="/">Welcome, {userEmail}</NavLink>
-    //                 </li>
-    //                 <li classNameName="nav-item user">
-    //                     <NavLink onClick={onLoggoutHandler} classNameName="nav-link" to="login" >Logout</NavLink>
-    //                 </li>
-    //             </>
-    //             }
-    //             {!isLoggedIn && <>
-
-    //                 <li classNameName="nav-item guest">
-    //                     <NavLink classNameName="nav-link" to="/login">Login</NavLink>
-    //                 </li>
-    //                 <li classNameName="nav-item guest">
-    //                     <NavLink classNameName="nav-link" to="/register">Register</NavLink>
-    //                 </li>
-    //             </>
-    //             }
-    //         </ul>
-    //     </nav>
-    // );
 };
 
 export default Navigation;

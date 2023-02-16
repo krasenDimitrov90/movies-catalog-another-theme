@@ -20,8 +20,15 @@
     border: 3px solid #2f80ed;
   }
 
+  body {
+    height: 100vh;
+    display: flex;
+  }
+
   #root {
     height: 100%;
+    flex: 1;
+    
   }
 
   .home-btn-krs,

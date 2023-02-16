@@ -2339,6 +2339,7 @@ tbody.collapse.in {
     background-image: none;
   }
 }
+
 @media (min-width: 768px) {
   .navbar-nav {
     float: left;
@@ -5870,6 +5871,10 @@ ul {
 .page-single {
   background-color: #020d18;
   padding: 75px 0;
+
+  /* flex: 1; */
+  display: flex;
+  align-items: center;
 }
 .social-btn {
   margin-bottom: 40px;
